@@ -3,6 +3,7 @@ import cors from "cors";
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 let usersServer = [];
 let tweetsServer = [];
@@ -20,7 +21,6 @@ app.post("/tweet", (req, res) => {
   if (!checkUser) {
     res.send("UNIAUTHORIZED");
   }
-
   const { usersname, tweet } = req.body;
   const tweets = { usersname, tweet };
 
@@ -30,6 +30,9 @@ app.post("/tweet", (req, res) => {
 
 app.get("/tweets", (req, res) => {
   const lastTenTweets = tweetsServer.slice(-10);
+  if (tweetsServer.length === 0) {
+    res.send([]);
+  }
   const tweets = lastTenTweets.map((t) => {
     const user = usersServer.find((u) => u.usersname === t.username);
     return {
