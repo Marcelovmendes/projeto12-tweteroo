@@ -21,7 +21,8 @@ app.post("/tweets", (req, res) => {
 
   const checkUser = usersServer.find((u) => u.username === username);
   if (!checkUser) {
-    res.send("UNIAUTHORIZED");
+   return res.send("UNAUTHORIZED");
+    
   }
 
   const tweets = { username, tweet };
